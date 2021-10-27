@@ -1,5 +1,6 @@
 // implement your server here
 const express = require("express");
+const postsRouter = require("./posts/posts-router");
 const server = express();
 
 const dotenv = require("dotenv");
@@ -12,9 +13,6 @@ dotenv.config({
 // BODY PARSER
 server.use(express.json());
 
-// IMPORTING ALL ROUTES
-// const users = require("../routes");
-
-// server.use("/api");
+server.use("/api/posts", postsRouter);
 
 module.exports = server;
