@@ -41,3 +41,30 @@ router.get("/:id", async (req, res) => {
     });
   }
 });
+
+// ENDPOINT METHOD(POST) => CREATE A NEW POST
+router.post("/", (req, res) => {
+  const { title, contents } = req.body;
+  if (!title || !contents) {
+    res.status(400).json({
+      success: false,
+      message: "Please provide contents and title for the post",
+    });
+  } else {
+    Post.insert({ title, contents })
+      .then(({ id }) => {
+        return Post.findById(id);
+      })
+      .then((post) => {
+        res.status(201).json(post);
+      })
+      .catch((err) => {
+        res.status(500).json({
+          success: false,
+          message: "There was an error while saving the post to the database",
+          err: err.message,
+          stack: err.stack,
+        });
+      });
+  }
+});
